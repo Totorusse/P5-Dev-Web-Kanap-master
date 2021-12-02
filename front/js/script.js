@@ -16,8 +16,10 @@ fetch("http://localhost:3000/api/products")
         "<article>" +
         "<img src=" +
         i.imageUrl +
-        " alt=" + '"' +
-        i.altTxt + '"' +
+        " alt=" +
+        '"' +
+        i.altTxt +
+        '"' +
         ">" +
         "<h3 class=" +
         "productName" +
@@ -32,9 +34,8 @@ fetch("http://localhost:3000/api/products")
         "</article>" +
         "</a>";
     }
+    document.getElementsByClassName("item__img").innerHTML = "test";
   })
   .catch(function (err) {
     // Une erreur est survenue
   });
-
-
