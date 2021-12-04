@@ -21,9 +21,23 @@ fetch("http://localhost:3000/api/products")
         for (let j of i.colors) {
           document.getElementById("colors").innerHTML += "<option value=" + j + ">" + j + "</option>";
         }
+        localStorage._id = i._id;
       }
     }
   })
   .catch(function (err) {
     // Une erreur est survenue
   });
+
+const input = document.querySelector("input");
+const qte = document.getElementById("quantity");
+
+input.addEventListener("change", updateValue);
+
+//Fonction qui récupère la quantité de canapé
+function updateValue(e) {
+  qte.textContent = e.target.value;
+  localStorage.quantity = e.target.value;
+}
+
+console.log(localStorage);
