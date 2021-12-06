@@ -9,9 +9,7 @@ fetch("http://localhost:3000/api/products")
     }
   })
   .then(function (value) {
-    console.log(value);
     for (let i of value) {
-      //console.log(i);
       if (i._id == LienId) {
         document.getElementsByClassName("item__img")[0].innerHTML +=
           "<img src=" + i.imageUrl + " alt=" + '"' + i.altTxt + '"' + ">";
@@ -41,3 +39,12 @@ function updateValue(e) {
 }
 
 console.log(localStorage);
+
+//Fonction qui récupère la couleur du canapé
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector('select').onchange=changeEventHandler;
+},false)
+
+function changeEventHandler(event) {
+  localStorage.couleur = event.target.value;
+}
