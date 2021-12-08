@@ -53,16 +53,13 @@ function changeEventHandler(event) {
 console.log(localStorage);
 
 //Fonction qui annonce l'ajout au panier
-function send(x, y, z) {
-  x = localStorage._id;
-  y = localStorage.couleur;
-  z = localStorage.quantity;
-  const panier = [x, y, z];
-
-  if (y == y) {
-    console.log(panier);
+let panier = [localStorage.couleur, localStorage.quantity];
+document.getElementById("addToCart").onclick = function () {
+  if (panier.includes(localStorage.couleur)) {
+    console.log("hello");
+  } else {
+    panier.push(localStorage.couleur, localStorage.quantity);
+    alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
   }
-
-  alert("Panier mis à jour, Couleur: " + y + " Quantité: " + z);
-}
-document.getElementById("addToCart").addEventListener("click", send);
+  console.log(panier);
+};
