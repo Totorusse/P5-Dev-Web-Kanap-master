@@ -28,6 +28,7 @@ fetch("http://localhost:3000/api/products")
   });
 
 //Fonction qui récupère la quantité de canapé
+localStorage.quantity = 1;
 const input = document.querySelector("input");
 const qte = document.getElementById("quantity");
 input.addEventListener("change", updateValue);
@@ -50,16 +51,26 @@ function changeEventHandler(event) {
   localStorage.couleur = event.target.value;
 }
 
-console.log(localStorage);
-
 //Fonction qui annonce l'ajout au panier
-let panier = [localStorage.couleur, localStorage.quantity];
+let panier = [];
 document.getElementById("addToCart").onclick = function () {
-  if (panier.includes(localStorage.couleur)) {
-    console.log("hello");
-  } else {
+  if (localStorage.couleur == undefined || "" || document.querySelector("select").value == "") {
+    alert("Choisissez une couleur");
+  } else if (panier.includes(localStorage.couleur) == false) {
+    console.log("yo");
     panier.push(localStorage.couleur, localStorage.quantity);
-    alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
+    //alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
+  } else if (panier.includes(localStorage.couleur) == true) {
+    console.log("mec");
+    let a = panier.indexOf(localStorage.couleur) + 1;
+    panier.splice(a, 1, localStorage.quantity);
+    // alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
   }
+  let x = localStorage._id;
+  localStorage[x] = panier;
   console.log(panier);
 };
+
+//localStorage.clear();
+
+console.log(localStorage);

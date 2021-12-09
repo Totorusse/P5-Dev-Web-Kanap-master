@@ -84,12 +84,3 @@ exports.findById = (id) => {
     )
   );
 }
-
-const panier = [
-  {
-    colors,
-    _id,
-    price,
-    imageUrl,
-  },
-]  
