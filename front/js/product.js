@@ -57,17 +57,19 @@ document.getElementById("addToCart").onclick = function () {
   if (localStorage.couleur == undefined || "" || document.querySelector("select").value == "") {
     alert("Choisissez une couleur");
   } else if (panier.includes(localStorage.couleur) == false) {
-    panier.push(localStorage.couleur, localStorage.quantity);
+    panier.push(localStorage._id, localStorage.couleur, localStorage.quantity);
     //alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
   } else if (panier.includes(localStorage.couleur) == true) {
     let a = panier.indexOf(localStorage.couleur) + 1;
-    let b = parseInt(localStorage.quantity, 10)  + parseInt(panier[a], 10) ;
+    let b = parseInt(localStorage.quantity, 10) + parseInt(panier[a], 10);
 
     panier.splice(a, 1, b);
     // alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
   }
-  let x = localStorage._id;
+  let x = "panier" + localStorage._id;
   localStorage[x] = panier;
+
+  console.log(panier);
 };
 
 //localStorage.clear();
