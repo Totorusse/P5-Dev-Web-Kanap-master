@@ -61,7 +61,9 @@ function getTotalPrice() {
   return total;
 }
 
-/*let str = document.URL;
+
+/*
+let str = document.URL;
 let url = new URL(str);
 let LienId = url.searchParams.get("id");
 
@@ -114,5 +116,6 @@ function changeEventHandler(event) {
   localStorage.couleur = event.target.value;
 }
 
-*/
+
 //localStorage.clear();
+*/
