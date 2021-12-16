@@ -1,67 +1,4 @@
-function savePanier(panier) {
-  localStorage.setItem("panier", JSON.stringify(panier));
-}
-
-function getPanier() {
-  let panier = localStorage.getItem("panier");
-  if (panier == null) {
-    return [];
-  } else {
-    return JSON.parse(localStorage.getItem("panier"));
-  }
-}
-
-function addPanier(produit) {
-  let panier = getPanier();
-  let foundProduit = panier.find((p) => p.id == produit.id);
-  if (foundProduit != undefined) {
-    foundProduit.quantity++;
-  } else {
-    produit.quantity = 1;
-    panier.push(produit);
-  }
-
-  savePanier(panier);
-}
-
-function removeFromPanier(produit) {
-  let panier = getPanier();
-  panier = panier.filter((p) => p.id != produit.id);
-  savePanier(panier);
-}
-
-function changeQuantity(produit, quantity) {
-  let panier = getPanier();
-  let foundProduit = panier.find((p) => p.id == produit.id);
-  if (foundProduit != undefined) {
-    foundProduit.quantity += quantity;
-    if (foundProduit.quantity <= 0) {
-      removeFromPanier(foundProduit);
-    } else {
-      savePanier(panier);
-    }
-  }
-}
-
-function getNumberProduit() {
-  let panier = getPanier();
-  let number = 0;
-  for (let produit of panier) {
-    number += produit.quantity;
-  }
-  return number;
-}
-
-function getTotalPrice() {
-  let panier = getPanier();
-  let total = 0;
-  for (let produit of panier) {
-    total += produit.quantity * produit.prix;
-  }
-  return total;
-}
-
-/*let str = document.URL;
+let str = document.URL;
 let url = new URL(str);
 let LienId = url.searchParams.get("id");
 
@@ -114,5 +51,27 @@ function changeEventHandler(event) {
   localStorage.couleur = event.target.value;
 }
 
-*/
+//Fonction qui annonce l'ajout au panier
+let panier = [];
+document.getElementById("addToCart").onclick = function () {
+  if (localStorage.couleur == undefined || "" || document.querySelector("select").value == "") {
+    alert("Choisissez une couleur");
+  } else if (panier.includes(localStorage.couleur) == false) {
+    panier.push(localStorage._id, localStorage.couleur, localStorage.quantity);
+    //alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
+  } else if (panier.includes(localStorage.couleur) == true) {
+    let a = panier.indexOf(localStorage.couleur) + 1;
+    let b = parseInt(localStorage.quantity, 10) + parseInt(panier[a], 10);
+
+    panier.splice(a, 1, b);
+    // alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
+  }
+  let x = "panier" + localStorage._id;
+  localStorage[x] = panier;
+
+  console.log(panier);
+};
+
 //localStorage.clear();
+
+console.log(localStorage);
