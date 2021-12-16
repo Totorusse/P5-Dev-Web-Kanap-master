@@ -1,13 +1,21 @@
-let panierGlobal = Object.values(localStorage);
+//let panierGlobal = Object.values(localStorage);
 
 console.log(Object.values(localStorage));
 console.log(localStorage);
 
-for (let i = 1; i < panierGlobal.length - 2; i++) {
-  let idDuPanier = panierGlobal[i].split(",")[0];
-  let CouleurDuPanier = panierGlobal[i].split(",")[1];
-  let QuantiteDuPanier = panierGlobal[i].split(",")[2];
+function getPanier() {
+  let panier = localStorage.getItem("panier");
+  if (panier == null) {
+    return [];
+  } else {
+    return JSON.parse(localStorage.getItem("panier"));
+  }
+}
 
+let panier = Object.values(localStorage);
+console.log(panier.length);
+
+for (let i = 0; i < panier.length; i++) {
   fetch("http://localhost:3000/api/products")
     .then(function (res) {
       if (res.ok) {

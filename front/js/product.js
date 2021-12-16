@@ -13,14 +13,12 @@ function getPanier() {
 
 function addPanier(produit) {
   let panier = getPanier();
-  let foundProduit = panier.find((p) => p.id == produit.id);
-  if (foundProduit != undefined) {
-    foundProduit.quantity++;
+  let foundProduit = panier.find((p) => p.id == produit.id && p.couleur == produit.couleur);
+  if (panier.includes(foundProduit)) {
+  foundProduit.quantity += parseInt(localStorage.quantity, 10);
   } else {
-    produit.quantity = 1;
     panier.push(produit);
   }
-
   savePanier(panier);
 }
 
@@ -61,11 +59,9 @@ function getTotalPrice() {
   return total;
 }
 
-
-/*
 let str = document.URL;
 let url = new URL(str);
-let LienId = url.searchParams.get("id");
+let lienId = url.searchParams.get("id");
 
 fetch("http://localhost:3000/api/products")
   .then(function (res) {
@@ -75,7 +71,7 @@ fetch("http://localhost:3000/api/products")
   })
   .then(function (value) {
     for (let i of value) {
-      if (i._id == LienId) {
+      if (i._id == lienId) {
         document.getElementsByClassName("item__img")[0].innerHTML +=
           "<img src=" + i.imageUrl + " alt=" + '"' + i.altTxt + '"' + ">";
         document.getElementById("title").innerHTML = i.name;
@@ -84,16 +80,11 @@ fetch("http://localhost:3000/api/products")
         for (let j of i.colors) {
           document.getElementById("colors").innerHTML += "<option value=" + j + ">" + j + "</option>";
         }
-        localStorage._id = i._id;
       }
     }
-  })
-  .catch(function (err) {
-    // Une erreur est survenue
   });
 
 //Fonction qui récupère la quantité de canapé
-localStorage.quantity = 1;
 const input = document.querySelector("input");
 const qte = document.getElementById("quantity");
 input.addEventListener("change", updateValue);
@@ -116,6 +107,16 @@ function changeEventHandler(event) {
   localStorage.couleur = event.target.value;
 }
 
+//Fonction qui ajoute au panier en cliquant sur le bouton
+const button = document.getElementById("addToCart");
+button.addEventListener("click", () => {
+  if (localStorage.couleur == undefined || "" || document.querySelector("select").value == "") {
+    alert("Choisissez une couleur");
+  } else {
+    addPanier({ id: lienId, couleur: localStorage.couleur, quantity: parseInt(localStorage.quantity) });
+    // alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
+  }
+});
+
 
 //localStorage.clear();
-*/
