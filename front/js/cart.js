@@ -1,8 +1,4 @@
 //let panierGlobal = Object.values(localStorage);
-
-console.log(Object.values(localStorage));
-console.log(localStorage);
-
 function getPanier() {
   let panier = localStorage.getItem("panier");
   if (panier == null) {
@@ -12,10 +8,17 @@ function getPanier() {
   }
 }
 
-let panier = Object.values(localStorage);
-console.log(panier.length);
+let panier = getPanier();
+console.log(panier);
+console.log(panier[0]);
+console.log(panier[0].id);
+
 
 for (let i = 0; i < panier.length; i++) {
+  let idDuPanier = panier[i].id;
+  let CouleurDuPanier = panier[i].couleur;
+  let QuantiteDuPanier = panier[i].quantity;
+
   fetch("http://localhost:3000/api/products")
     .then(function (res) {
       if (res.ok) {
