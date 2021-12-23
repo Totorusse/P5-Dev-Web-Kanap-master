@@ -1,7 +1,9 @@
+//Fonction qui sauvegarde les éléments du panier
 function savePanier(panier) {
   localStorage.setItem("panier", JSON.stringify(panier));
 }
 
+//Fonction qui récupère les éléments du panier
 function getPanier() {
   let panier = localStorage.getItem("panier");
   if (panier == null) {
@@ -11,52 +13,23 @@ function getPanier() {
   }
 }
 
+//Fonction qui ajoute les éléments du panier
 function addPanier(produit) {
   let panier = getPanier();
   let foundProduit = panier.find((p) => p.id == produit.id && p.couleur == produit.couleur);
   if (panier.includes(foundProduit)) {
-  foundProduit.quantity += parseInt(localStorage.quantity, 10);
+    foundProduit.quantity += parseInt(localStorage.quantity, 10);
   } else {
     panier.push(produit);
   }
   savePanier(panier);
 }
 
+//Fonction qui retire des éléments du panier
 function removeFromPanier(produit) {
   let panier = getPanier();
   panier = panier.filter((p) => p.id != produit.id);
   savePanier(panier);
-}
-
-function changeQuantity(produit, quantity) {
-  let panier = getPanier();
-  let foundProduit = panier.find((p) => p.id == produit.id);
-  if (foundProduit != undefined) {
-    foundProduit.quantity += quantity;
-    if (foundProduit.quantity <= 0) {
-      removeFromPanier(foundProduit);
-    } else {
-      savePanier(panier);
-    }
-  }
-}
-
-function getNumberProduit() {
-  let panier = getPanier();
-  let number = 0;
-  for (let produit of panier) {
-    number += produit.quantity;
-  }
-  return number;
-}
-
-function getTotalPrice() {
-  let panier = getPanier();
-  let total = 0;
-  for (let produit of panier) {
-    total += produit.quantity * produit.prix;
-  }
-  return total;
 }
 
 let str = document.URL;
@@ -88,6 +61,7 @@ fetch("http://localhost:3000/api/products")
 const input = document.querySelector("input");
 const qte = document.getElementById("quantity");
 input.addEventListener("change", updateValue);
+console.log(qte);
 
 function updateValue(e) {
   qte.textContent = e.target.value;
@@ -117,6 +91,5 @@ button.addEventListener("click", () => {
     // alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
   }
 });
-
 
 //localStorage.clear();

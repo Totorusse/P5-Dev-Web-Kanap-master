@@ -1,4 +1,9 @@
-//let panierGlobal = Object.values(localStorage);
+//Fonction qui sauvegarde les éléments du panier
+function savePanier(panier) {
+  localStorage.setItem("panier", JSON.stringify(panier));
+}
+
+//Fonction qui récupère les éléments du panier
 function getPanier() {
   let panier = localStorage.getItem("panier");
   if (panier == null) {
@@ -8,12 +13,51 @@ function getPanier() {
   }
 }
 
+//Fonction qui retire des éléments du panier ; produit = array
+function removeFromPanier(produit) {
+  let panier = getPanier();
+  panier = panier.filter((p) => p.id != produit.id);
+  savePanier(panier);
+}
+
+//Fonction qui modifie des quantités du panier ; produit = array
+function changeQuantity(produit, quantity) {
+  let panier = getPanier();
+  let foundProduit = panier.find((p) => p.id == produit.id);
+  if (foundProduit != undefined) {
+    foundProduit.quantity = quantity;
+    if (foundProduit.quantity <= 0) {
+      removeFromPanier(foundProduit);
+      console.log("say");
+    } else {
+      console.log("salut");
+      savePanier(panier);
+    }
+  }
+}
+
+
+//Fonction qui récupère les quantité d'éléments du panier
+function getNumberProduit() {
+  let panier = getPanier();
+  let number = 0;
+  for (let produit of panier) {
+    number += produit.quantity;
+  }
+  return number;
+}
+
+//Fonction qui calcule le total du prix des éléments du panier
+function getTotalPrice() {
+  let panier = getPanier();
+  let total = 0;
+  for (let produit of panier) {
+    total += produit.quantity * produit.prix;
+  }
+  return total;
+}
+
 let panier = getPanier();
-console.log(panier);
-console.log(panier[0]);
-console.log(panier[0].id);
-
-
 for (let i = 0; i < panier.length; i++) {
   let idDuPanier = panier[i].id;
   let CouleurDuPanier = panier[i].couleur;
@@ -26,11 +70,11 @@ for (let i = 0; i < panier.length; i++) {
       }
     })
     .then(function (value) {
-      for (const j in value) {
+      for (let j in value) {
         if (value[j]._id == idDuPanier) {
-          const lienImage = value[j].imageUrl;
-          const nom = value[j].name;
-          const prix = value[j].price;
+          let lienImage = value[j].imageUrl;
+          let nom = value[j].name;
+          let prix = value[j].price;
 
           document.getElementById("cart__items").innerHTML +=
             '<article class="cart__item" data-id="' +
@@ -75,9 +119,42 @@ for (let i = 0; i < panier.length; i++) {
             "</div>" +
             "</div>" +
             "</article>";
-
-          console.log(document.getElementsByClassName("cart__item__content__settings__quantity"));
         }
       }
     });
 }
+
+
+//Fonction qui récupère la valeur de l'input modifié
+function updateValue(e) {
+  let target = e.target;
+  let valeur = target.value;
+  let article = target.closest("article");
+  let articleId = article.dataset.id;
+  let articleColor = article.dataset.color;
+  let panierUpdate = { id: articleId, couleur: articleColor, quantity: valeur };
+
+  changeQuantity(panierUpdate, valeur);
+}
+
+//Fonction qui attend 1 seconde pour laissé la page chargé les informations
+function resolveAfter1Seconds() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let x = document.querySelectorAll("article");
+      x.forEach((x) => x.addEventListener("change", updateValue));
+      resolve(x);
+    }, 1000);
+  });
+}
+
+async function asyncCall() {
+  const result = await resolveAfter1Seconds();
+  console.log(result);
+  // expected output: "resolved"
+}
+
+asyncCall();
+
+
+
