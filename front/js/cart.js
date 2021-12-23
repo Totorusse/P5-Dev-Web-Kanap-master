@@ -117,8 +117,6 @@ for (let i = 0; i < panier.length; i++) {
             "</div>" +
             "</div>" +
             "</article>";
-          //  var el = document.querySelector("article");
-          // el.dataset.quantite = QuantiteDuPanier;
         }
       }
     });
@@ -132,7 +130,6 @@ function updateValue(e) {
   let articleId = article.dataset.id;
   let articleColor = article.dataset.color;
   let panierUpdate = { id: articleId, couleur: articleColor, quantity: valeur };
-
   changeQuantity(panierUpdate, valeur);
 }
 
@@ -144,6 +141,7 @@ function supprProduit(elt) {
   let articleColor = article.dataset.color;
   let panierSuppr = { id: articleId, couleur: articleColor };
   removeFromPanier(panierSuppr);
+  article.innerHTML = "";
 }
 
 //Fonction qui attend 1 seconde pour laissé la page chargé les informations
@@ -166,3 +164,7 @@ async function asyncCall() {
 }
 
 asyncCall();
+
+
+document.getElementById("totalQuantity").innerHTML = getNumberProduit() ;
+document.getElementById("totalPrice").innerHTML = getTotalPrice();
