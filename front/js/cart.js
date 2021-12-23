@@ -16,7 +16,8 @@ function getPanier() {
 //Fonction qui retire des éléments du panier ; produit = array
 function removeFromPanier(produit) {
   let panier = getPanier();
-  panier = panier.filter((p) => p.id != produit.id && p.couleur != produit.couleur);
+  let foundProduit = panier.find((p) => p.id == produit.id && p.couleur == produit.couleur);
+  panier = panier.filter((p) => p != foundProduit);
   savePanier(panier);
 }
 
@@ -138,12 +139,10 @@ function updateValue(e) {
 //Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
 function supprProduit(elt) {
   let target = elt.target;
-  let valeur = target.value;
   let article = target.closest("article");
   let articleId = article.dataset.id;
   let articleColor = article.dataset.color;
   let panierSuppr = { id: articleId, couleur: articleColor };
-  console.log(panierSuppr);
   removeFromPanier(panierSuppr);
 }
 
