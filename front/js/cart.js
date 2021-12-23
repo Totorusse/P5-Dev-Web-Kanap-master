@@ -40,7 +40,7 @@ function getNumberProduit() {
   let panier = getPanier();
   let number = 0;
   for (let produit of panier) {
-    number += produit.quantity;
+    number += parseInt(produit.quantity, 10);
   }
   return number;
 }
@@ -131,6 +131,8 @@ function updateValue(e) {
   let articleColor = article.dataset.color;
   let panierUpdate = { id: articleId, couleur: articleColor, quantity: valeur };
   changeQuantity(panierUpdate, valeur);
+  document.getElementById("totalQuantity").innerHTML = getNumberProduit();
+  document.getElementById("totalPrice").innerHTML = getTotalPrice();
 }
 
 //Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
@@ -142,6 +144,8 @@ function supprProduit(elt) {
   let panierSuppr = { id: articleId, couleur: articleColor };
   removeFromPanier(panierSuppr);
   article.innerHTML = "";
+  document.getElementById("totalQuantity").innerHTML = getNumberProduit();
+  document.getElementById("totalPrice").innerHTML = getTotalPrice();
 }
 
 //Fonction qui attend 1 seconde pour laissé la page chargé les informations
@@ -152,7 +156,6 @@ function resolveAfter1Seconds() {
       x.forEach((x) => x.addEventListener("change", updateValue));
       let y = document.querySelectorAll(".deleteItem");
       y.forEach((y) => y.addEventListener("click", supprProduit));
-
       resolve(x);
     }, 1000);
   });
@@ -165,6 +168,5 @@ async function asyncCall() {
 
 asyncCall();
 
-
-document.getElementById("totalQuantity").innerHTML = getNumberProduit() ;
+document.getElementById("totalQuantity").innerHTML = getNumberProduit();
 document.getElementById("totalPrice").innerHTML = getTotalPrice();
