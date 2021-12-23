@@ -16,26 +16,23 @@ function getPanier() {
 //Fonction qui retire des éléments du panier ; produit = array
 function removeFromPanier(produit) {
   let panier = getPanier();
-  panier = panier.filter((p) => p.id != produit.id);
+  panier = panier.filter((p) => p.id != produit.id && p.couleur != produit.couleur);
   savePanier(panier);
 }
 
 //Fonction qui modifie des quantités du panier ; produit = array
 function changeQuantity(produit, quantity) {
   let panier = getPanier();
-  let foundProduit = panier.find((p) => p.id == produit.id);
+  let foundProduit = panier.find((p) => p.id == produit.id && p.couleur == produit.couleur);
   if (foundProduit != undefined) {
     foundProduit.quantity = quantity;
     if (foundProduit.quantity <= 0) {
       removeFromPanier(foundProduit);
-      console.log("say");
     } else {
-      console.log("salut");
       savePanier(panier);
     }
   }
 }
-
 
 //Fonction qui récupère les quantité d'éléments du panier
 function getNumberProduit() {
@@ -119,13 +116,14 @@ for (let i = 0; i < panier.length; i++) {
             "</div>" +
             "</div>" +
             "</article>";
+          //  var el = document.querySelector("article");
+          // el.dataset.quantite = QuantiteDuPanier;
         }
       }
     });
 }
 
-
-//Fonction qui récupère la valeur de l'input modifié
+//Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
 function updateValue(e) {
   let target = e.target;
   let valeur = target.value;
@@ -137,12 +135,27 @@ function updateValue(e) {
   changeQuantity(panierUpdate, valeur);
 }
 
+//Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
+function supprProduit(elt) {
+  let target = elt.target;
+  let valeur = target.value;
+  let article = target.closest("article");
+  let articleId = article.dataset.id;
+  let articleColor = article.dataset.color;
+  let panierSuppr = { id: articleId, couleur: articleColor };
+  console.log(panierSuppr);
+  removeFromPanier(panierSuppr);
+}
+
 //Fonction qui attend 1 seconde pour laissé la page chargé les informations
 function resolveAfter1Seconds() {
   return new Promise((resolve) => {
     setTimeout(() => {
       let x = document.querySelectorAll("article");
       x.forEach((x) => x.addEventListener("change", updateValue));
+      let y = document.querySelectorAll(".deleteItem");
+      y.forEach((y) => y.addEventListener("click", supprProduit));
+
       resolve(x);
     }, 1000);
   });
@@ -151,10 +164,6 @@ function resolveAfter1Seconds() {
 async function asyncCall() {
   const result = await resolveAfter1Seconds();
   console.log(result);
-  // expected output: "resolved"
 }
 
 asyncCall();
-
-
-
