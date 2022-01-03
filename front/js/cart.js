@@ -156,7 +156,8 @@ function resolveAfter1Seconds() {
       x.forEach((x) => x.addEventListener("change", updateValue));
       let y = document.querySelectorAll(".deleteItem");
       y.forEach((y) => y.addEventListener("click", supprProduit));
-      resolve(x);
+      let z = fetch("http://localhost:3000/api/products");
+      resolve(z);
     }, 1000);
   });
 }
@@ -168,5 +169,38 @@ async function asyncCall() {
 
 asyncCall();
 
+/*
+async function asyncCall(z) {
+ z = await fetch("http://localhost:3000/api/products");
+  console.log(z);
+}
+
+asyncCall()
+    .then(function () {
+      let x = document.querySelectorAll("article");
+      x.forEach((x) => x.addEventListener("change", updateValue));
+      let y = document.querySelectorAll(".deleteItem");
+      y.forEach((y) => y.addEventListener("click", supprProduit));
+  console.log(x);
+    })
+*/
+
 document.getElementById("totalQuantity").innerHTML = getNumberProduit();
 document.getElementById("totalPrice").innerHTML = getTotalPrice();
+
+let firstName = document.getElementById("firstName").value;
+let lastName = document.getElementById("lastName").value;
+let adress = document.getElementById("address").value;
+let city = document.getElementById("city").value;
+let email = document.getElementById("email").value;
+
+let masquePrenom = /^e/;
+let masqueNom = /^e/;
+let masqueAdresse = /^e/;
+let masqueVille = /^e/;
+let masqueEmail = /^e/;
+console.log(firstName.match(masquePrenom));
+console.log(lastName.match(masquePrenom));
+
+if (firstName.match(masquePrenom) == null) {
+document.getElementById("firstNameErrorMsg").innerHTML = "salut"}
