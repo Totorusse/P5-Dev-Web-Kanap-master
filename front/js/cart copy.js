@@ -143,11 +143,11 @@ function supprProduit(elt) {
   let articleColor = article.dataset.color;
   let panierSuppr = { id: articleId, couleur: articleColor };
   removeFromPanier(panierSuppr);
-  article.style.display = "none";
+  article.innerHTML = "";
   document.getElementById("totalQuantity").innerHTML = getNumberProduit();
   document.getElementById("totalPrice").innerHTML = getTotalPrice();
 }
-
+/*
 //Fonction qui attend 1 seconde pour laissé la page chargé les informations
 function resolveAfter1Seconds() {
   return new Promise((resolve) => {
@@ -167,6 +167,25 @@ async function asyncCall() {
 }
 
 asyncCall();
+*/
 
 document.getElementById("totalQuantity").innerHTML = getNumberProduit();
 document.getElementById("totalPrice").innerHTML = getTotalPrice();
+
+//Fonction qui attend 1 seconde pour laissé la page chargé les informations
+function resolveAfter1Seconds2() {
+  return new Promise(() => {
+      let x = document.querySelectorAll("article");
+      x.forEach((x) => x.addEventListener("change", updateValue));
+      let y = document.querySelectorAll(".deleteItem");
+      y.forEach((y) => y.addEventListener("click", supprProduit));
+  });
+}
+
+async function asyncCall2() {
+  const result = await fetch("http://localhost:3000/api/products");
+  resolveAfter1Seconds2();
+  console.log(result);
+}
+
+asyncCall2();
