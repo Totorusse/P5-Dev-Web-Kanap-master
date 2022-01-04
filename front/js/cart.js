@@ -187,23 +187,24 @@ asyncCall()
 document.getElementById("totalQuantity").innerHTML = getNumberProduit();
 document.getElementById("totalPrice").innerHTML = getTotalPrice();
 
-let masquePrenom = /^e/;
-let masqueNom = /^e/;
-let masqueAdresse = /^e/;
-let masqueVille = /^e/;
-let masqueEmail = /^e/;
-
 let coordonnees = document.querySelectorAll("input");
 coordonnees.forEach((x) => x.addEventListener("change", validation));
 
-
+// Fonction qui récupère les données des champs du formulaire et les compare au RegEx
 function validation(champ) {
   let target = champ.target;
   let valeur = target.value;
-  let titreChamp = target.id ;
-  let messageErreur = target.nextElementSibling;
-  let testMasque = valeur.match(masquePrenom);
+  let titreChamp = target.id;
 
+  const masques = { firstName: /^e/, lastName: /^e/, address: /^e/, city: /^e/, email: /^e/ };
+  for (let i in masques) {
+    if (i == titreChamp) {
+      console.log(i);
+    }
+  }
+
+  let messageErreur = target.nextElementSibling;
+  let testMasque = valeur.match(masques.titreChamp); //modif masque ici
   if (testMasque != null) {
     messageErreur.innerHTML = "";
   } else {
@@ -217,7 +218,6 @@ let lastNameValue = document.getElementById("lastName").value;
 let adressValue = document.getElementById("address").value;
 let cityValue = document.getElementById("city").value;
 let emailValue = document.getElementById("email").value;
-
 
 // Constructor function for Person objects
 function person(first, last, adress, city, email) {
