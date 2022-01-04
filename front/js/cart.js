@@ -164,7 +164,6 @@ function resolveAfter1Seconds() {
 
 async function asyncCall() {
   const result = await resolveAfter1Seconds();
-  console.log(result);
 }
 
 asyncCall();
@@ -188,19 +187,48 @@ asyncCall()
 document.getElementById("totalQuantity").innerHTML = getNumberProduit();
 document.getElementById("totalPrice").innerHTML = getTotalPrice();
 
-let firstName = document.getElementById("firstName").value;
-let lastName = document.getElementById("lastName").value;
-let adress = document.getElementById("address").value;
-let city = document.getElementById("city").value;
-let email = document.getElementById("email").value;
-
 let masquePrenom = /^e/;
 let masqueNom = /^e/;
 let masqueAdresse = /^e/;
 let masqueVille = /^e/;
 let masqueEmail = /^e/;
-console.log(firstName.match(masquePrenom));
-console.log(lastName.match(masquePrenom));
 
-if (firstName.match(masquePrenom) == null) {
-document.getElementById("firstNameErrorMsg").innerHTML = "salut"}
+let coordonnees = document.querySelectorAll("input");
+coordonnees.forEach((x) => x.addEventListener("change", validation));
+
+
+function validation(champ) {
+  let target = champ.target;
+  let valeur = target.value;
+  let titreChamp = target.id ;
+  let messageErreur = target.nextElementSibling;
+  let testMasque = valeur.match(masquePrenom);
+
+  if (testMasque != null) {
+    messageErreur.innerHTML = "";
+  } else {
+    valeur = "";
+    messageErreur.innerHTML = "Veuillez saisir un champ correct";
+  }
+}
+
+let firstNameValue = document.getElementById("firstName").value;
+let lastNameValue = document.getElementById("lastName").value;
+let adressValue = document.getElementById("address").value;
+let cityValue = document.getElementById("city").value;
+let emailValue = document.getElementById("email").value;
+
+
+// Constructor function for Person objects
+function person(first, last, adress, city, email) {
+  this.firstName = first;
+  this.lastName = last;
+  this.adress = adress;
+  this.city = city;
+  this.email = email;
+}
+
+// Create a Person object
+const client = new person(firstNameValue, lastNameValue, adressValue, cityValue, emailValue);
+
+console.log(client);
