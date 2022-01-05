@@ -195,21 +195,17 @@ function validation(champ) {
   let target = champ.target;
   let valeur = target.value;
   let titreChamp = target.id;
-
-  const masques = { firstName: /^e/, lastName: /^e/, address: /^e/, city: /^e/, email: /^e/ };
+  let messageErreur = target.nextElementSibling;
+  const masques = { firstName: /^e/, lastName: /^es/, address: /^e/, city: /^e/, email: /^e/ };
   for (let i in masques) {
     if (i == titreChamp) {
-      console.log(i);
+      if (valeur.match(masques[i]) != null) {
+        messageErreur.innerHTML = "";
+      } else {
+        valeur = "";
+        messageErreur.innerHTML = "Veuillez saisir un champ correct";
+      }
     }
-  }
-
-  let messageErreur = target.nextElementSibling;
-  let testMasque = valeur.match(masques.titreChamp); //modif masque ici
-  if (testMasque != null) {
-    messageErreur.innerHTML = "";
-  } else {
-    valeur = "";
-    messageErreur.innerHTML = "Veuillez saisir un champ correct";
   }
 }
 
