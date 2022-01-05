@@ -156,6 +156,8 @@ function resolveAfter1Seconds() {
       x.forEach((x) => x.addEventListener("change", updateValue));
       let y = document.querySelectorAll(".deleteItem");
       y.forEach((y) => y.addEventListener("click", supprProduit));
+      document.getElementById("order").addEventListener("click", creationTableau);
+      document.getElementById("order").addEventListener("click", send);
       let z = fetch("http://localhost:3000/api/products");
       resolve(z);
     }, 1000);
@@ -189,7 +191,6 @@ document.getElementById("totalPrice").innerHTML = getTotalPrice();
 
 let coordonnees = document.querySelectorAll("input");
 coordonnees.forEach((x) => x.addEventListener("change", validation));
-
 // Fonction qui récupère les données des champs du formulaire et les compare au RegEx
 function validation(champ) {
   let target = champ.target;
@@ -197,7 +198,7 @@ function validation(champ) {
   let titreChamp = target.id;
   let messageErreur = target.nextElementSibling;
   const masques = {
-    firstName: /^[a-zA-Z]([a-z\s.-]|(\s|-)[A-Z]|){1,30}$/g,
+    firstName: /^[a-zA-Z](['a-z\s.-]|(\s|-)[A-Z]|){1,30}$/g,
     lastName: /^[a-zA-Z](['a-z\s.-]|\s[A-Z]){1,30}$/g,
     address: /^\d{1,3}[a-zA-Z\s]/,
     city: /^[a-zA-Z\s]{2,30}$/,
@@ -217,20 +218,48 @@ function validation(champ) {
 
 let firstNameValue = document.getElementById("firstName").value;
 let lastNameValue = document.getElementById("lastName").value;
-let adressValue = document.getElementById("address").value;
+let addressValue = document.getElementById("address").value;
 let cityValue = document.getElementById("city").value;
 let emailValue = document.getElementById("email").value;
 
 // Constructor function for Person objects
-function person(first, last, adress, city, email) {
+function client(first, last, address, city, email) {
   this.firstName = first;
   this.lastName = last;
-  this.adress = adress;
+  this.address = address;
   this.city = city;
   this.email = email;
 }
-
 // Create a Person object
-const client = new person(firstNameValue, lastNameValue, adressValue, cityValue, emailValue);
+const contact = new client(firstNameValue, lastNameValue, addressValue, cityValue, emailValue);
+console.log(contact);
 
-console.log(client);
+function send() {
+  console.log("salut");
+  fetch("http://localhost:3000/api/products", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contact, produits),
+  }).then(function (res) {
+    if (res.ok) {
+      return res.json();
+    }
+  });
+}
+
+//Fonction qui récupère les produits à commander et les met dans un tableau
+function creationTableau() {
+  let article = document.querySelectorAll("article");
+  let produits = [];
+  for (let i = 0; i < article.length; i++) {
+    console.log(article[i].dataset.id);
+    produits.push(article[i].dataset.id);
+    console.log(produits);
+  }
+}
+
+console.log(contact);
+console.log(produits);
