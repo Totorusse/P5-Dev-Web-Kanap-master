@@ -196,7 +196,13 @@ function validation(champ) {
   let valeur = target.value;
   let titreChamp = target.id;
   let messageErreur = target.nextElementSibling;
-  const masques = { firstName: /^e/, lastName: /^es/, address: /^e/, city: /^e/, email: /^e/ };
+  const masques = {
+    firstName: /^[a-zA-Z]([a-z\s.-]|(\s|-)[A-Z]|){1,30}$/g,
+    lastName: /^[a-zA-Z](['a-z\s.-]|\s[A-Z]){1,30}$/g,
+    address: /^\d{1,3}[a-zA-Z\s]/,
+    city: /^[a-zA-Z\s]{2,30}$/,
+    email: /.@.{2,}\.[a-zA-Z]{2,}/,
+  };
   for (let i in masques) {
     if (i == titreChamp) {
       if (valeur.match(masques[i]) != null) {
