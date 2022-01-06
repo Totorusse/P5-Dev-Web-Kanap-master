@@ -216,39 +216,28 @@ function validation(champ) {
   }
 }
 
-let firstNameValue = document.getElementById("firstName").value;
-let lastNameValue = document.getElementById("lastName").value;
-let addressValue = document.getElementById("address").value;
-let cityValue = document.getElementById("city").value;
-let emailValue = document.getElementById("email").value;
+// Fonction qui crée l'objet contact
+function creationContact() {
+  let firstNameValue = document.getElementById("firstName").value;
+  let lastNameValue = document.getElementById("lastName").value;
+  let addressValue = document.getElementById("address").value;
+  let cityValue = document.getElementById("city").value;
+  let emailValue = document.getElementById("email").value;
 
-// Constructor function for Person objects
-function client(first, last, address, city, email) {
-  this.firstName = first;
-  this.lastName = last;
-  this.address = address;
-  this.city = city;
-  this.email = email;
+  // Constructor function for Person objects
+  function client(first, last, address, city, email) {
+    this.firstName = first;
+    this.lastName = last;
+    this.address = address;
+    this.city = city;
+    this.email = email;
+  }
+  // Create a Person object
+  const contact = new client(firstNameValue, lastNameValue, addressValue, cityValue, emailValue);
+  return contact;
 }
-// Create a Person object
-const contact = new client(firstNameValue, lastNameValue, addressValue, cityValue, emailValue);
-console.log(contact);
 
-function send() {
-  console.log("salut");
-  fetch("http://localhost:3000/api/products", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(contact, produits),
-  }).then(function (res) {
-    if (res.ok) {
-      return res.json();
-    }
-  });
-}
+//coordonnees.forEach((x) => x.addEventListener("change", creationContact));
 
 //Fonction qui récupère les produits à commander et les met dans un tableau
 function creationTableau() {
@@ -259,7 +248,30 @@ function creationTableau() {
     produits.push(article[i].dataset.id);
     console.log(produits);
   }
+  return produits;
 }
 
-console.log(contact);
-console.log(produits);
+function send(e) {
+  e.preventDefault();
+  let contact = creationContact();
+  let products = creationTableau();
+  let order = [contact, products];
+  console.log(order);
+  console.log(contact);
+  console.log(typeof contact);
+  console.log(products);
+  console.log(typeof products[0]);
+
+  fetch("http://localhost:3000/api/products", { //pb chemin ???
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(order),
+  }).then(function (res) {
+    if (res.ok) {
+      return res.json();
+    }
+  });
+}
