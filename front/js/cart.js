@@ -224,19 +224,6 @@ function creationContact() {
   let cityValue = document.getElementById("city").value;
   let emailValue = document.getElementById("email").value;
 
-  /*
-  // Constructor function for Person objects
-  function client(first, last, address, city, email) {
-    this.firstName = first;
-    this.lastName = last;
-    this.address = address;
-    this.city = city;
-    this.email = email;
-  }
-  // Create a Person object
-  const contact = new client(firstNameValue, lastNameValue, addressValue, cityValue, emailValue);
-  return contact;*/
-
   const contact = {
     firstName: firstNameValue,
     lastName: lastNameValue,
@@ -247,14 +234,11 @@ function creationContact() {
   return contact;
 }
 
-//coordonnees.forEach((x) => x.addEventListener("change", creationContact));
-
 //Fonction qui récupère les produits à commander et les met dans un tableau
 function creationTableau() {
   let article = document.querySelectorAll("article");
   let produits = [];
   for (let i = 0; i < article.length; i++) {
-    console.log(article[i].dataset.id);
     produits.push(article[i].dataset.id);
   }
   return produits;
@@ -267,19 +251,25 @@ function send(e) {
   let order = { contact, products };
 
   fetch("http://localhost:3000/api/products/order", {
-    //pb chemin ???
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(order),
-  }).then(function (res) {
-    if (res.ok) {
-      return res.json();
-    }
   })
-  .then(function (res) {
-      console.log(res);
-  });
+    .then(function (res) {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then(function (res) {
+      let orderId = res.orderId;
+      console.log(orderId);
+      console.log("hello");
+      let str = "http://127.0.0.1:5500/P5-Dev-Web-Kanap-master/front/html/confirmation.html";
+      let url = str + "?id=" + orderId;
+      console.log(url);
+      window.location.href = url;
+      return orderId;
+    });
 }
-
