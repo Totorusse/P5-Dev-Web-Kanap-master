@@ -224,6 +224,7 @@ function creationContact() {
   let cityValue = document.getElementById("city").value;
   let emailValue = document.getElementById("email").value;
 
+  /*
   // Constructor function for Person objects
   function client(first, last, address, city, email) {
     this.firstName = first;
@@ -234,6 +235,15 @@ function creationContact() {
   }
   // Create a Person object
   const contact = new client(firstNameValue, lastNameValue, addressValue, cityValue, emailValue);
+  return contact;*/
+
+  const contact = {
+    firstName: firstNameValue,
+    lastName: lastNameValue,
+    address: addressValue,
+    city: cityValue,
+    email: emailValue,
+  };
   return contact;
 }
 
@@ -246,7 +256,6 @@ function creationTableau() {
   for (let i = 0; i < article.length; i++) {
     console.log(article[i].dataset.id);
     produits.push(article[i].dataset.id);
-    console.log(produits);
   }
   return produits;
 }
@@ -255,17 +264,12 @@ function send(e) {
   e.preventDefault();
   let contact = creationContact();
   let products = creationTableau();
-  let order = [contact, products];
-  console.log(order);
-  console.log(contact);
-  console.log(typeof contact);
-  console.log(products);
-  console.log(typeof products[0]);
+  let order = { contact, products };
 
-  fetch("http://localhost:3000/api/products", { //pb chemin ???
+  fetch("http://localhost:3000/api/products/order", {
+    //pb chemin ???
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(order),
@@ -273,5 +277,9 @@ function send(e) {
     if (res.ok) {
       return res.json();
     }
+  })
+  .then(function (res) {
+      console.log(res);
   });
 }
+
