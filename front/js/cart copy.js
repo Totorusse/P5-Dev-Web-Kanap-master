@@ -55,20 +55,21 @@ function getTotalPrice() {
   return total;
 }
 
-fetch("http://localhost:3000/api/products")
-  .then(function (res) {
-    if (res.ok) {
-      return res.json();
-    }
-  })
-  .then(function (value) {
-    for (let j in value) {
-      let panier = getPanier();
-      for (let i in panier) {
-        let idDuPanier = panier[i].id;
-        let CouleurDuPanier = panier[i].couleur;
-        let QuantiteDuPanier = panier[i].quantity;
+let panier = getPanier();
+console.log(panier);
+for (let i = 0; i < panier.length; i++) {
+  let idDuPanier = panier[i].id;
+  let CouleurDuPanier = panier[i].couleur;
+  let QuantiteDuPanier = panier[i].quantity;
 
+  fetch("http://localhost:3000/api/products")
+    .then(function (res) {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then(function (value) {
+      for (let j in value) {
         if (value[j]._id == idDuPanier) {
           let lienImage = value[j].imageUrl;
           let nom = value[j].name;
@@ -119,8 +120,8 @@ fetch("http://localhost:3000/api/products")
             "</article>";
         }
       }
-    }
-  });
+    });
+}
 
 //Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
 function updateValue(e) {

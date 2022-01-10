@@ -13,6 +13,17 @@ function getPanier() {
   }
 }
 
+//Fonction qui compare les id du panier pour pouvoir le trier
+function compare(a, b) {
+  if (a.id < b.id) {
+    return -1;
+  }
+  if (a.id > b.id) {
+    return 1;
+  }
+  return 0;
+}
+
 //Fonction qui ajoute les éléments du panier
 function addPanier(produit) {
   let panier = getPanier();
@@ -21,6 +32,7 @@ function addPanier(produit) {
     foundProduit.quantity += parseInt(localStorage.quantity, 10);
   } else {
     panier.push(produit);
+    panier.sort(compare);
   }
   savePanier(panier);
 }
@@ -62,7 +74,6 @@ fetch("http://localhost:3000/api/products")
 const input = document.querySelector("input");
 const qte = document.getElementById("quantity");
 input.addEventListener("change", updateValue);
-console.log(qte);
 
 function updateValue(e) {
   qte.textContent = e.target.value;
@@ -70,17 +81,17 @@ function updateValue(e) {
 }
 
 //Fonction qui récupère la couleur du canapé
+function changeColor(event) {
+  localStorage.couleur = event.target.value;
+}
+
 document.addEventListener(
   "DOMContentLoaded",
   function () {
-    document.querySelector("select").onchange = changeEventHandler;
+    document.querySelector("select").onchange = changeColor;
   },
   false
 );
-
-function changeEventHandler(event) {
-  localStorage.couleur = event.target.value;
-}
 
 //Fonction qui ajoute au panier en cliquant sur le bouton
 const button = document.getElementById("addToCart");
@@ -88,7 +99,12 @@ button.addEventListener("click", () => {
   if (localStorage.couleur == undefined || "" || document.querySelector("select").value == "") {
     alert("Choisissez une couleur");
   } else {
-    addPanier({ id: lienId, couleur: localStorage.couleur, quantity: parseInt(localStorage.quantity), prix: localStorage.prix });
+    addPanier({
+      id: lienId,
+      couleur: localStorage.couleur,
+      quantity: parseInt(localStorage.quantity),
+      prix: localStorage.prix,
+    });
     // alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
   }
 });
