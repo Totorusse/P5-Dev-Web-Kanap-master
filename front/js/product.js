@@ -105,7 +105,7 @@ button.addEventListener("click", () => {
       quantity: parseInt(localStorage.quantity),
       prix: localStorage.prix,
     });
-    // alert("Panier mis à jour, Couleur: " + localStorage.couleur + " Quantité: " + localStorage.quantity);
+    alert("Produit ajouté au panier");
   }
 });
 

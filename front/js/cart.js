@@ -204,13 +204,20 @@ function validation(champ) {
     city: /^[a-zA-Z\s]{2,30}$/,
     email: /.@.{2,}\.[a-zA-Z]{2,}/,
   };
+  const erreur = {
+    firstName: "Veuillez saisir un champ correct (sans numéro)",
+    lastName: "Veuillez saisir un champ correct (sans numéro)",
+    address: "Veuillez saisir un champ correct (commençant par un chiffre)",
+    city: "Veuillez saisir un champ correct (sans numéro)",
+    email: "Veuillez saisir un champ correct (contenant un @)",
+  };
   for (let i in masques) {
     if (i == titreChamp) {
       if (valeur.match(masques[i]) != null) {
         messageErreur.innerHTML = "";
       } else {
         valeur = "";
-        messageErreur.innerHTML = "Veuillez saisir un champ correct";
+        messageErreur.innerHTML = erreur[i];
       }
     }
   }
