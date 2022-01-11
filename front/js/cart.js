@@ -55,6 +55,32 @@ function getTotalPrice() {
   return total;
 }
 
+//Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
+function updateValue(e) {
+  let target = e.target;
+  let valeur = target.value;
+  let article = target.closest("article");
+  let articleId = article.dataset.id;
+  let articleColor = article.dataset.color;
+  let panierUpdate = { id: articleId, couleur: articleColor, quantity: valeur };
+  changeQuantity(panierUpdate, valeur);
+  document.getElementById("totalQuantity").innerHTML = getNumberProduit();
+  document.getElementById("totalPrice").innerHTML = getTotalPrice();
+}
+
+//Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
+function supprProduit(elt) {
+  let target = elt.target;
+  let article = target.closest("article");
+  let articleId = article.dataset.id;
+  let articleColor = article.dataset.color;
+  let panierSuppr = { id: articleId, couleur: articleColor };
+  removeFromPanier(panierSuppr);
+  article.style.display = "none";
+  document.getElementById("totalQuantity").innerHTML = getNumberProduit();
+  document.getElementById("totalPrice").innerHTML = getTotalPrice();
+}
+
 fetch("http://localhost:3000/api/products")
   .then(function (res) {
     if (res.ok) {
@@ -120,74 +146,24 @@ fetch("http://localhost:3000/api/products")
         }
       }
     }
-  });
-
-//Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
-function updateValue(e) {
-  let target = e.target;
-  let valeur = target.value;
-  let article = target.closest("article");
-  let articleId = article.dataset.id;
-  let articleColor = article.dataset.color;
-  let panierUpdate = { id: articleId, couleur: articleColor, quantity: valeur };
-  changeQuantity(panierUpdate, valeur);
-  document.getElementById("totalQuantity").innerHTML = getNumberProduit();
-  document.getElementById("totalPrice").innerHTML = getTotalPrice();
-}
-
-//Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
-function supprProduit(elt) {
-  let target = elt.target;
-  let article = target.closest("article");
-  let articleId = article.dataset.id;
-  let articleColor = article.dataset.color;
-  let panierSuppr = { id: articleId, couleur: articleColor };
-  removeFromPanier(panierSuppr);
-  article.style.display = "none";
-  document.getElementById("totalQuantity").innerHTML = getNumberProduit();
-  document.getElementById("totalPrice").innerHTML = getTotalPrice();
-}
-
-//Fonction qui attend 1 seconde pour laissé la page chargé les informations
-function resolveAfter1Seconds() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      let x = document.querySelectorAll("article");
-      x.forEach((x) => x.addEventListener("change", updateValue));
-      let y = document.querySelectorAll(".deleteItem");
-      y.forEach((y) => y.addEventListener("click", supprProduit));
+  })
+  .then(function () {
+    console.log(document.querySelectorAll("input"));
+    let x = document.querySelectorAll("article");
+    x.forEach((x) => x.addEventListener("change", updateValue));
+    let y = document.querySelectorAll(".deleteItem");
+    y.forEach((y) => y.addEventListener("click", supprProduit));
+  })
+  .then(function () {
       document.getElementById("order").addEventListener("click", creationTableau);
       document.getElementById("order").addEventListener("click", send);
-      let z = fetch("http://localhost:3000/api/products");
-      resolve(z);
-    }, 1000);
   });
-}
-
-async function asyncCall() {
-  const result = await resolveAfter1Seconds();
-}
-
-asyncCall();
-
-/*
-async function asyncCall(z) {
- z = await fetch("http://localhost:3000/api/products");
-  console.log(z);
-}
-
-asyncCall()
-    .then(function () {
-      let x = document.querySelectorAll("article");
-      x.forEach((x) => x.addEventListener("change", updateValue));
-      let y = document.querySelectorAll(".deleteItem");
-      y.forEach((y) => y.addEventListener("click", supprProduit));
-  console.log(x);
-    })
-*/
 
 document.getElementById("totalQuantity").innerHTML = getNumberProduit();
 document.getElementById("totalPrice").innerHTML = getTotalPrice();
+
+// fin de la partie Panier
+//Début de la partie Formulaire
 
 let coordonnees = document.querySelectorAll("input");
 coordonnees.forEach((x) => x.addEventListener("change", validation));
