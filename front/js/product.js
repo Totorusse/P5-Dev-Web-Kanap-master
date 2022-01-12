@@ -57,8 +57,10 @@ function changeColor(event) {
 //Fonction qui ajoute au panier en cliquant sur le bouton
 const button = document.getElementById("addToCart");
 button.addEventListener("click", () => {
-  if (localStorage.couleur == undefined || "" || document.querySelector("select").value == "") {
+  if (document.querySelector("select").value == "") {
     alert("Choisissez une couleur");
+  } else if (document.querySelector("input").value == 0) {
+    alert("Choisissez une quantité");
   } else {
     addPanier({
       id: lienId,
