@@ -155,8 +155,8 @@ fetch("http://localhost:3000/api/products")
     y.forEach((y) => y.addEventListener("click", supprProduit));
   })
   .then(function () {
-      document.getElementById("order").addEventListener("click", creationTableau);
-      document.getElementById("order").addEventListener("click", send);
+    document.getElementById("order").addEventListener("click", creationTableau);
+    document.getElementById("order").addEventListener("click", send);
   });
 
 document.getElementById("totalQuantity").innerHTML = getNumberProduit();
@@ -167,6 +167,7 @@ document.getElementById("totalPrice").innerHTML = getTotalPrice();
 
 let coordonnees = document.querySelectorAll("input");
 coordonnees.forEach((x) => x.addEventListener("change", validation));
+
 // Fonction qui récupère les données des champs du formulaire et les compare au RegEx
 function validation(champ) {
   let target = champ.target;
