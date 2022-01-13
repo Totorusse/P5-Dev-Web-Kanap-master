@@ -66,7 +66,7 @@ button.addEventListener("click", () => {
       id: lienId,
       couleur: localStorage.couleur,
       quantity: parseInt(localStorage.quantity),
-      prix: localStorage.prix,
+      //prix: localStorage.prix,
     });
     alert("Produit ajouté au panier");
   }
@@ -101,7 +101,7 @@ fetch("http://localhost:3000/api/products")
           "<img src=" + i.imageUrl + " alt=" + '"' + i.altTxt + '"' + ">";
         document.getElementById("title").innerHTML = i.name;
         document.getElementById("price").innerHTML = i.price;
-        localStorage.prix = i.price;
+        //localStorage.prix = i.price;
         document.getElementById("description").innerHTML = i.description;
         for (let j of i.colors) {
           document.getElementById("colors").innerHTML += "<option value=" + j + ">" + j + "</option>";

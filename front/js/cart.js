@@ -45,15 +45,23 @@ function getNumberProduit() {
   return number;
 }
 
-//Fonction qui calcule le total du prix des éléments du panier
-function getTotalPrice() {
-  let panier = getPanier();
-  let total = 0;
-  for (let produit of panier) {
-    total += produit.quantity * produit.prix;
-  }
-  return total;
+//Fonction qui calcule le prix total du panier
+function getPrice() {
+let panier = getPanier();
+let input = document.querySelectorAll("input");
+let prixTarget = document.querySelectorAll("article p:nth-child(3)");
+let total = 0;
+
+for (let i = 0 ; i < panier.length ; i++) {
+let quantiteTarget = input[i];
+total += quantiteTarget.value * parseInt(prixTarget[i].textContent);
 }
+return total;
+}
+
+
+
+
 
 //Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
 function updateValue(e) {
@@ -65,7 +73,7 @@ function updateValue(e) {
   let panierUpdate = { id: articleId, couleur: articleColor, quantity: valeur };
   changeQuantity(panierUpdate, valeur);
   document.getElementById("totalQuantity").innerHTML = getNumberProduit();
-  document.getElementById("totalPrice").innerHTML = getTotalPrice();
+  document.getElementById("totalPrice").innerHTML = getPrice();
 }
 
 //Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
@@ -78,7 +86,7 @@ function supprProduit(elt) {
   removeFromPanier(panierSuppr);
   article.style.display = "none";
   document.getElementById("totalQuantity").innerHTML = getNumberProduit();
-  document.getElementById("totalPrice").innerHTML = getTotalPrice();
+  document.getElementById("totalPrice").innerHTML = getPrice();
 }
 
 fetch("http://localhost:3000/api/products")
@@ -148,19 +156,22 @@ fetch("http://localhost:3000/api/products")
     }
   })
   .then(function () {
-    console.log(document.querySelectorAll("input"));
     let x = document.querySelectorAll("article");
     x.forEach((x) => x.addEventListener("change", updateValue));
     let y = document.querySelectorAll(".deleteItem");
     y.forEach((y) => y.addEventListener("click", supprProduit));
   })
   .then(function () {
+    document.getElementById("totalPrice").innerHTML = getPrice();  })
+  .then(function () {
     document.getElementById("order").addEventListener("click", creationTableau);
     document.getElementById("order").addEventListener("click", send);
   });
 
 document.getElementById("totalQuantity").innerHTML = getNumberProduit();
-document.getElementById("totalPrice").innerHTML = getTotalPrice();
+
+
+
 
 // fin de la partie Panier
 //Début de la partie Formulaire
@@ -254,3 +265,4 @@ function send(e) {
       return orderId;
     });
 }
+
