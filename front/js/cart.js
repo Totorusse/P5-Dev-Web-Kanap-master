@@ -47,21 +47,17 @@ function getNumberProduit() {
 
 //Fonction qui calcule le prix total du panier
 function getPrice() {
-let panier = getPanier();
-let input = document.querySelectorAll("input");
-let prixTarget = document.querySelectorAll("article p:nth-child(3)");
-let total = 0;
+  let panier = getPanier();
+  let input = document.querySelectorAll("input");
+  let prixTarget = document.querySelectorAll("article p:nth-child(3)");
+  let total = 0;
 
-for (let i = 0 ; i < panier.length ; i++) {
-let quantiteTarget = input[i];
-total += quantiteTarget.value * parseInt(prixTarget[i].textContent);
+  for (let i = 0; i < panier.length; i++) {
+    let quantiteTarget = input[i];
+    total += quantiteTarget.value * parseInt(prixTarget[i].textContent);
+  }
+  return total;
 }
-return total;
-}
-
-
-
-
 
 //Fonction qui récupère la valeur de l'input modifié et appelle la fonction qui modifie la quantité du panier
 function updateValue(e) {
@@ -162,16 +158,12 @@ fetch("http://localhost:3000/api/products")
     y.forEach((y) => y.addEventListener("click", supprProduit));
   })
   .then(function () {
-    document.getElementById("totalPrice").innerHTML = getPrice();  })
-  .then(function () {
     document.getElementById("order").addEventListener("click", creationTableau);
     document.getElementById("order").addEventListener("click", send);
   });
 
 document.getElementById("totalQuantity").innerHTML = getNumberProduit();
-
-
-
+document.getElementById("totalPrice").innerHTML = getPrice();
 
 // fin de la partie Panier
 //Début de la partie Formulaire
@@ -265,4 +257,3 @@ function send(e) {
       return orderId;
     });
 }
-
