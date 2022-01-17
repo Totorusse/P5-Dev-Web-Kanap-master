@@ -5,9 +5,7 @@ fetch("http://localhost:3000/api/products")
     }
   })
   .then(function (value) {
-    console.log(value);
     for (let i of value) {
-      console.log(i);
       document.getElementById("items").innerHTML +=
         "<a href=" +
         "./product.html?id=" +
@@ -35,6 +33,6 @@ fetch("http://localhost:3000/api/products")
         "</a>";
     }
   })
-  .catch(function (err) {
-    // Une erreur est survenue
+  .catch((error) => {
+    console.log(error);
   });

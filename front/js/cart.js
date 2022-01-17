@@ -152,6 +152,10 @@ fetch("http://localhost:3000/api/products")
     }
   })
   .then(function () {
+    document.getElementById("totalQuantity").innerHTML = getNumberProduit();
+    document.getElementById("totalPrice").innerHTML = getPrice();
+  })
+  .then(function () {
     let x = document.querySelectorAll("article");
     x.forEach((x) => x.addEventListener("change", updateValue));
     let y = document.querySelectorAll(".deleteItem");
@@ -161,9 +165,6 @@ fetch("http://localhost:3000/api/products")
     document.getElementById("order").addEventListener("click", creationTableau);
     document.getElementById("order").addEventListener("click", send);
   });
-
-document.getElementById("totalQuantity").innerHTML = getNumberProduit();
-document.getElementById("totalPrice").innerHTML = getPrice();
 
 // fin de la partie Panier
 //Début de la partie Formulaire
