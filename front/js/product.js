@@ -72,9 +72,7 @@ button.addEventListener("click", () => {
   }
 });
 
-let str = document.URL;
-let url = new URL(str);
-let lienId = url.searchParams.get("id");
+//fin des fonctions
 
 const input = document.querySelector("input");
 const qte = document.getElementById("quantity");
@@ -87,6 +85,10 @@ document.addEventListener(
   },
   false
 );
+
+let str = document.URL;
+let url = new URL(str);
+let lienId = url.searchParams.get("id");
 
 fetch("http://localhost:3000/api/products")
   .then(function (res) {

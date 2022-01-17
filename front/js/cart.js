@@ -80,7 +80,7 @@ function supprProduit(elt) {
   let articleColor = article.dataset.color;
   let panierSuppr = { id: articleId, couleur: articleColor };
   removeFromPanier(panierSuppr);
-  article.style.display = "none";
+  article.remove();
   document.getElementById("totalQuantity").innerHTML = getNumberProduit();
   document.getElementById("totalPrice").innerHTML = getPrice();
 }
@@ -252,7 +252,7 @@ function send(e) {
     })
     .then(function (res) {
       let orderId = res.orderId;
-      let str = "http://127.0.0.1:5500/P5-Dev-Web-Kanap-master/front/html/confirmation.html";
+      let str = "/confirmation.html";
       let url = str + "?id=" + orderId;
       window.location.href = url;
       return orderId;
